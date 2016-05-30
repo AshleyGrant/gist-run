@@ -5,21 +5,32 @@ import {
   bindable,
   bindingMode
 } from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {DOM} from 'aurelia-pal';
+import {ThemePreference} from '../themes/theme-preference';
 
 // // retrieve ace's base path from the System config
 // let base = System.normalizeSync('ace');
 // base = base.substr(0, base.length - 3);
 // ace.config.set('basePath', base);
 
-@inject(Element)
+
+@inject(Element, EventAggregator, ThemePreference)
 @inlineView('<template></template>')
-@bindable({ name: 'theme', defaultValue: 'chrome' })
+@bindable({ name: 'theme'})
 @bindable({ name: 'mode', defaultValue: 'javascript' })
 @bindable({ name: 'value', defaultValue: '', defaultBindingMode: bindingMode.twoWay })
 export class AceEditor {
-  constructor(element) {
+  constructor(element, ea, themePreference) {
     this.element = element;
+    this.ea = ea;
+    this.themePreference = themePreference;
+
+    const preferredTheme = this.themePreference.loadThemePreference();
+
+    if (preferredTheme) {
+      this.theme = preferredTheme.aceTheme;
+    }
     element.focus = ::this.focus;
   }
 
@@ -59,7 +70,7 @@ export class AceEditor {
     this.editor.renderer.setPadding(5);
 
     // avoid warning message in console
-    this.editor.$blockScrolling = Infinity
+    this.editor.$blockScrolling = Infinity;
 
     // https://github.com/ajaxorg/ace/wiki/Configuring-Ace
     this.editor.setOptions({
@@ -83,9 +94,15 @@ export class AceEditor {
       let changeEvent = DOM.createCustomEvent('change', { bubbles: true, detail: this.value });
       this.element.dispatchEvent(changeEvent);
     });
+
+    this.themeChangedSubscription = this.ea.subscribe('theme-changed', theme => {
+      this.theme = theme.aceTheme;
+      this.themePreference.saveThemePreference(theme);
+    });
   }
 
   detached() {
+    this.themeChangedSubscription.dispose();
     this.editor.getSession().off('change');
     this.editor.destroy();
     this.editor = null;

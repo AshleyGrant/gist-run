@@ -38,4 +38,13 @@
           ga ga-category="nav-panel" ga-action="new">
     New Gist
   </button>
+
+  <select class="form-select select-sm right" value.bind="theme">
+    <optgroup label="Light Themes">
+      <option repeat.for="theme of lightThemes & oneTime" model.one-time="theme">${theme.name & oneTime}</option>
+    </optgroup>
+    <optgroup label="Dark Themes">
+      <option repeat.for="theme of darkThemes & oneTime" model.one-time="theme">${theme.name & oneTime}</option>
+    </optgroup>
+  </select>
 </template>
