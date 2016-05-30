@@ -44,7 +44,9 @@
     "aurelia-framework": "^1.0.0-beta.1.2.1",
     "aurelia-pal": "^1.0.0-beta.1.2.0",
     "octicons": "github:github/octicons",
+    "primer-css": "^3.0.1",
     "requirejs": "^2.2.0",
-    "requirejs-text": "^2.0.12"
+    "requirejs-text": "^2.0.12",
+    "split.js": "^1.0.6"
   }
 }
