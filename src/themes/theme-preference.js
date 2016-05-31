@@ -1,4 +1,4 @@
-import {lightThemes, darkThemes} from '../themes/editor-themes';
+import {lightThemes, darkThemes} from './themes';
 
 const themeStorageKey = 'SELECTED_THEME';
 

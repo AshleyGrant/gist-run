@@ -2,7 +2,7 @@ import {inject, bindable, TaskQueue} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {User} from '../github/user';
 import {ThemePreference} from '../themes/theme-preference';
-import {lightThemes, darkThemes} from '../themes/editor-themes';
+import {lightThemes, darkThemes} from '../themes/themes';
 
 @inject(User, TaskQueue, EventAggregator, ThemePreference)
 export class Header {
@@ -11,7 +11,7 @@ export class Header {
   @bindable theme;
   lightThemes = lightThemes;
   darkThemes = darkThemes;
-  guard = false;
+  guard = true;
 
   constructor(user, taskQueue, ea, themePreference) {
     this.user = user;
@@ -26,12 +26,13 @@ export class Header {
     if (theme) {
       this.guard = true;
       this.theme = theme;
-      this.taskQueue.queueMicroTask(() => this.guard = false);
     }
+    this.taskQueue.queueMicroTask(() => this.guard = false);
   }
 
   themeChanged(newValue) {
     if (!this.guard) {
+      this.themePreference.saveThemePreference(newValue);
       this.ea.publish('theme-changed', newValue);
     }
   }

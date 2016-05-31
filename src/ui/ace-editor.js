@@ -97,7 +97,6 @@ export class AceEditor {
 
     this.themeChangedSubscription = this.ea.subscribe('theme-changed', theme => {
       this.theme = theme.aceTheme;
-      this.themePreference.saveThemePreference(theme);
     });
   }
 

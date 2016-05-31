@@ -1,0 +1,114 @@
+body {
+  background-color: #002B36;
+}
+
+header {
+  flex: 0 0 auto;
+
+  margin-bottom: 15px;
+
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  background-color: #eee8d5;
+  border-bottom: 1px solid #073642;
+}
+
+result-panel {
+  background-color: white;
+}
+
+nav.menu {
+  border-color: #93a1a1;
+  background-color: #002b36;
+  border: 1px solid #586e75;
+}
+
+.menu-item {
+  text-shadow: none;
+  color: #93A1A1;
+  border-bottom: 1px solid #586e75;
+}
+
+.menu-item .octicon {
+  color: #93A1A1;
+}
+
+.menu-item:hover .octicon {
+    color: #002b36;
+}
+
+.menu-item.selected {
+  background-color: #586e75;
+  text-shadow: none;
+  color: #859900;
+}
+
+.menu-item:hover {
+    background-color: #93A1A1;
+    text-shadow: none;
+    color: #002b36;
+}
+
+.menu-item.selected::before {
+  background-color: #859900;
+}
+
+.flash {
+  background-color: #93a1a1;
+  border: 1px solid #586e75;
+}
+
+edit-file-panel {
+  border-color: #93a1a1;
+}
+
+.file-header {
+  background-color: #eee8d5;
+  border-color: #93a1a1;
+}
+
+.form-control, .form-select {
+  background-color: #073642;
+  border-color: #93a1a1;
+  color: #839496;
+}
+
+header .form-control, .file-header .form-control, header .form-select {
+  background-color: #93a1a1;
+  border-color: #586e75;
+  color: #eee;
+
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: #586e75;
+  border-color: #93a1a1;
+  color: #eee8d5;
+}
+
+.btn {
+  background-color: #586e75;
+  background-image: linear-gradient(#586e75, #657b83);
+  border-color: #93a1a1;
+  color: #fdf6e3;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #586e75;
+  background-image: linear-gradient(#839496, #93a1a1);
+  border-color: #93a1a1;
+}
+
+header .btn {
+  background-image: linear-gradient(#073642, #002b36);
+  color: #eee8d5;
+  border-color: #93a1a1;
+}
+
+header .btn:hover {
+  background-image: linear-gradient(#586e75, #657b83);
+  border-color: #93a1a1;
+}

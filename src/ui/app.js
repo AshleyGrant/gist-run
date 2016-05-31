@@ -1,22 +1,50 @@
 import {inject} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {EditSessionFactory} from '../editing/edit-session-factory';
 import {CurrentFileChangedEvent} from '../editing/current-file-changed-event';
 import {QueryString} from '../editing/query-string';
 import {defaultGist} from '../github/default-gist';
 import {Importer} from '../import/importer';
+import {ThemePreference} from '../themes/theme-preference';
 import {Focus} from './focus';
 import alertify from 'alertify';
 
-@inject(EditSessionFactory, Importer, QueryString, Focus)
+@inject(EditSessionFactory, Importer, QueryString, Focus, EventAggregator, ThemePreference)
 export class App {
   editSession = null;
 
-  constructor(editSessionFactory, importer, queryString, focus) {
+  constructor(editSessionFactory, importer, queryString, focus, ea, themePreference) {
     this.editSessionFactory = editSessionFactory;
     this.importer = importer;
     this.queryString = queryString;
     this.focus = focus;
     addEventListener('beforeunload', ::this.beforeUnload);
+
+    this.changeThemeCSS(themePreference.loadThemePreference());
+
+    ea.subscribe('theme-changed', ::this.changeThemeCSS);
+  }
+
+  changeThemeCSS(theme) {
+    const cssTheme = theme.cssTheme;
+    let linkElement = document.querySelector('link#theme');
+
+    if (cssTheme) {
+      if (linkElement) {
+        linkElement.href = 'styles/themes/${theme}.css';
+      } else {
+        linkElement = document.createElement('link');
+        linkElement.id = 'theme';
+        linkElement.rel = 'stylesheet';
+        linkElement.href = `styles/themes/${cssTheme}.css`;
+
+        document.querySelector('head').appendChild(linkElement);
+      }
+    } else {
+      if (linkElement) {
+        document.querySelector('head').removeChild(linkElement);
+      }
+    }
   }
 
   beforeUnload(event) {
